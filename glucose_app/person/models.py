@@ -9,6 +9,11 @@ class Person(models.Model):
         male = ("M", _("Male"))
         female = ("F", _("Female"))
 
+    class DiabetesType(models.TextChoices):
+        pre_diabetes = ("P", _("Pre diabetes"))
+        type_1 = ("1", _("Diabetes type 1"))
+        type_2 = ("2", _("Diabetes type 2"))
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.TextField(validators=[validate_length])
     last_name = models.TextField(validators=[validate_length])
@@ -59,3 +64,13 @@ class Person(models.Model):
     correction_factor = models.PositiveSmallIntegerField(default=35)
     min_glycemia = models.PositiveSmallIntegerField(default=80)
     max_glycemia = models.PositiveSmallIntegerField(default=95)
+    weight = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+    )
+    diabetes_type = models.CharField(
+        max_length=1,
+        choices=DiabetesType.choices,
+        default=DiabetesType.type_1,
+    )
